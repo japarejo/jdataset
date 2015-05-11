@@ -148,7 +148,7 @@ public class ExcelToCSV {
     private String separator = null;
 
     private static final String CSV_FILE_EXTENSION = ".csv";
-    private static final String DEFAULT_SEPARATOR = ",";
+    private static final String DEFAULT_SEPARATOR = ";";
 
     /**
      * Identifies that the CSV file should obey Excel's formatting conventions

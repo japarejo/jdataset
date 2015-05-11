@@ -5,17 +5,24 @@
  */
 package es.us.isa.jdataset.loader;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import es.us.isa.jdataset.DataSet;
+import es.us.isa.jdataset.SimpleDataSet;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.List;
 import java.util.Set;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
  *
  * @author José Antonio Parejo
  */
-public class PlainTextLoaderTest {
+public class PlainTextLoaderTest extends LoaderTest {
     
-    public PlainTextLoaderTest() {
+    public PlainTextLoaderTest(){
     }
 
     /**
@@ -23,6 +30,11 @@ public class PlainTextLoaderTest {
      */
     @Test
     public void testLoad() throws Exception {
+        PlainTextLoader ptl=new PlainTextLoader(System.getProperty("line.separator"), ",", true);       
+        DataSet expectedResult=createHeightsDataSet();
+        File f=new File("src/test/resources/sampleFiles/HeightSample.txt");
+        DataSet result=ptl.load(new FileInputStream(f), ".txt");
+        assertEquals(expectedResult,result);
         
     }
 
@@ -33,11 +45,9 @@ public class PlainTextLoaderTest {
     public void testGetSupportedExtensions() {
         Set<String> expectedExtensions=Sets.newHashSet("txt");
         PlainTextLoader ptl=new PlainTextLoader(null, null, true);
-        asserEquals(expectedExtensions,ptl.getSupportedExtensions());
-    }
+        assertEquals(expectedExtensions,ptl.getSupportedExtensions());
+    }   
 
-    private void asserEquals(Set<String> expectedExtensions, Set supportedExtensions) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
     
 }

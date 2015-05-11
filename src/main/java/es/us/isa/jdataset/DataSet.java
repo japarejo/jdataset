@@ -23,5 +23,8 @@ public interface DataSet {
     Collection<Column<?>> getColumns();
     <T> Column<T> getColumn(String name);    
     <T> void addColumn(Class<T> c,String name) throws InvalidParameterException;
-    DataFormatSpecification getGeneralDataSpec();
+    <T> void addColumn(Class<T> c,String name,Collection<? extends T> data) throws InvalidParameterException;
+    DataFormatSpecification getGeneralDataSpec();    
+
+    int getNRows();
 }

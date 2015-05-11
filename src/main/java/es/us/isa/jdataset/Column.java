@@ -15,9 +15,9 @@ public abstract class Column<T extends Object> {
     protected Class<T> type;
     protected DataSet dataSet;
     protected String name;
-    private DataFormatSpecification particularDataFormatSpec;
+    private DataFormatSpecification<T> particularDataFormatSpec;
 
-    public Column(Class<T> type,  String name,DataSet dataSet, DataFormatSpecification particularDataFormatSpec) {
+    public Column(Class<T> type,  String name,DataSet dataSet, DataFormatSpecification<T> particularDataFormatSpec) {
         this.type = type;
         this.dataSet = dataSet;
         this.name = name;
@@ -63,6 +63,7 @@ public abstract class Column<T extends Object> {
     public abstract T get(int rowIdentifier);
     public abstract int getIndexOf(T object);
     public abstract void set(int rowIdentifier, T value);    
+    public abstract int size();
     
     
 }

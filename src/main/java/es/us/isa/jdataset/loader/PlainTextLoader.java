@@ -39,7 +39,7 @@ public class PlainTextLoader<X> extends AbstractFileTypeLoader{
 
     public PlainTextLoader(String rowSeparator, String columnSeparator,Boolean hasColumnHeaders)
     {
-        this(rowSeparator,columnSeparator,hasColumnHeaders, null,null);
+        this(rowSeparator,columnSeparator,hasColumnHeaders, new HashMap<Integer, Function<String, ?>>(),null);
     }
             
     

@@ -7,16 +7,26 @@ package es.us.isa.jdataset;
 
 import java.security.InvalidParameterException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
  * @author José Antonio Parejo
  */
 public class SimpleDataSet implements DataSet{
+    
     private DataFormatSpecification generalDataSpec;
     Map<String,Column<?>> columns;
     private String rowIdentifier;
+
+    public SimpleDataSet() {
+        columns=new HashMap<>();
+    }
+    
+    
+    
     /**
      * @return the generalDataSpec
      */
@@ -67,12 +77,58 @@ public class SimpleDataSet implements DataSet{
     }
 
     @Override
-    public Column<?> getColumn(String name) {
-        return columns.get(name);
+    public <T> Column<T> getColumn(String name) {
+        return (Column<T>)columns.get(name);
     }
 
+    @Override
+    public <T> void addColumn(Class<T> c, String name, Collection<? extends T> data) throws InvalidParameterException {
+        addColumn(c,name);
+        Column<T> column=this.<T>getColumn(name);
+        int i=0;
+        for(T datum:data){
+            column.set(i, datum);
+            i++;
+        }
+    }                   
+
     
-       
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.generalDataSpec);
+        hash = 97 * hash + Objects.hashCode(this.columns);
+        hash = 97 * hash + Objects.hashCode(this.rowIdentifier);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SimpleDataSet other = (SimpleDataSet) obj;
+        if (!Objects.equals(this.generalDataSpec, other.generalDataSpec)) {
+            return false;
+        }
+        if (!Objects.equals(this.columns, other.columns)) {
+            return false;
+        }
+        if (!Objects.equals(this.rowIdentifier, other.rowIdentifier)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int getNRows() {        
+        if(columns.isEmpty())
+            return 0;
+        return columns.values().iterator().next().size();
+    }
     
     
     

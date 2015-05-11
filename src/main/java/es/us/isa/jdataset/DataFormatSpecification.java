@@ -9,6 +9,6 @@ package es.us.isa.jdataset;
  *
  * @author José Antonio Parejo
  */
-public class DataFormatSpecification {
+public class DataFormatSpecification<T> {
     
 }

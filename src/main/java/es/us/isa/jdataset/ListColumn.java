@@ -7,6 +7,7 @@ package es.us.isa.jdataset;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -37,7 +38,24 @@ public class ListColumn<T> extends Column<T>{
 
     @Override
     public void set(int rowIdentifier, T value) {
+        while(rowIdentifier>data.size()-1)
+            data.add(null);
         data.set(rowIdentifier, value);
+        
+    }
+
+
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.data);
+        return hash;
+    }
+
+    @Override
+    public int size() {
+        return data.size();
     }
 
     
