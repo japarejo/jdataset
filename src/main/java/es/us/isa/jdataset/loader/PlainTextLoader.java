@@ -5,6 +5,7 @@
  */
 package es.us.isa.jdataset.loader;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import es.us.isa.jdataset.Column;
@@ -17,7 +18,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -57,9 +57,9 @@ public class PlainTextLoader<X> extends AbstractFileTypeLoader{
         Class<?> columnClass=null;
         headersIndexes=new HashMap<>();
         for(int i=0;i<firstRow.length;i++){   
-            headersIndexes.put(firstRow[i],i);
-            columnClass=extractColumnClass(firstRow[i],secondRow[i]);
-            dataset.addColumn(columnClass, firstRow[i]);
+            headersIndexes.put(firstRow[i].trim(),i);
+            columnClass=extractColumnClass(firstRow[i].trim(),secondRow[i]);
+            dataset.addColumn(columnClass, firstRow[i].trim());
         }
     }
 
@@ -104,7 +104,7 @@ public class PlainTextLoader<X> extends AbstractFileTypeLoader{
             if(!equality[i])
                 inequalities++;
         }
-        if(inequalities>0)
+        if(inequalities==0)
         {
             for(int i=0;i<firstRow.length;i++)
             {
@@ -123,7 +123,7 @@ public class PlainTextLoader<X> extends AbstractFileTypeLoader{
         Function<String,?> valueTypeConversor=null;        
         for(int j=0;j<data.length;j++)
         {
-            column=dataset.getColumn(headers[j]);
+            column=dataset.getColumn(headers[j].trim());
             valueTypeConversor=columnTypeConversors.get(j);            
             if(valueTypeConversor==null){                
                 valueTypeConversor=defaultConversor;
@@ -138,8 +138,12 @@ public class PlainTextLoader<X> extends AbstractFileTypeLoader{
     @Override
     public DataSet load(InputStream is, String extension) throws IOException {
         DataSet result=new SimpleDataSet();        
-        String content=IOUtils.toString(is);
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(is,writer);
+        String content=writer.toString();
         String[] lines=content.split(rowSeparator);        
+        if(lines.length==1)
+            lines=content.split("\n");
         if(lines.length>1){            
             if(hasColumnHeaders!=null && hasColumnHeaders.booleanValue()){
                 createColumns(result,lines[0].split(columnSeparator),lines[1].split(columnSeparator));
@@ -148,7 +152,7 @@ public class PlainTextLoader<X> extends AbstractFileTypeLoader{
             }
             int initialIndex=hasColumnHeaders?1:0;
             for(int i=initialIndex;i<lines.length;i++){
-                parseLine(lines[i],i,result);
+                parseLine(lines[i],i-initialIndex,result);
             }
         }
         return result;

@@ -7,15 +7,15 @@ package es.us.isa.jdataset.writer;
 
 import es.us.isa.jdataset.Column;
 import es.us.isa.jdataset.DataSet;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Iterator;
-import static javafx.scene.input.KeyCode.X;
 
 /**
  *
  * @author japarejo
  */
-public class JSONArrayWriter implements Writer{
+public class JSONArrayWriter extends AbstractTextWriter{
     private boolean writeColumnLabels;
 
     public JSONArrayWriter(boolean writeColumnLabels) {
@@ -50,6 +50,11 @@ public class JSONArrayWriter implements Writer{
             item=iterator.next();
             sb.append(item.get(i));
         }
+    }
+
+    @Override
+    public void write(DataSet dataset, OutputStream output) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

@@ -57,7 +57,7 @@ public class ExcelLoaderTest extends LoaderTest{
         for(String extension:supporteExtensions){
             f=new File(baseFileName+extension);
             DataSet result = instance.load(new FileInputStream(f), extension);
-            assertEquals("Found differences between expected and loade datasets for extension "+extension,expResult, result);
+            assertEquals("Found differences between expected and loaded datasets for extension "+extension,expResult, result);
         }
         
     }

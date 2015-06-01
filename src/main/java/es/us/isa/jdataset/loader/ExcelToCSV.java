@@ -149,6 +149,7 @@ public class ExcelToCSV {
 
     private static final String CSV_FILE_EXTENSION = ".csv";
     private static final String DEFAULT_SEPARATOR = ";";
+    private static final String NEW_LINE = System.getProperty("line.separator");
 
     /**
      * Identifies that the CSV file should obey Excel's formatting conventions
@@ -676,7 +677,7 @@ public class ExcelToCSV {
                 // avoid an additional, superfluous, new line at the end of
                 // the file.
                 if(i < (this.csvData.size() - 1)) {
-                    bw.append("\n");
+                    bw.append(NEW_LINE);
                 }
             }
         }

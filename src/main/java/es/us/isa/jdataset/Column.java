@@ -6,12 +6,14 @@
 package es.us.isa.jdataset;
 
 import java.util.Objects;
+import java.util.List;
 
 /**
  *
  * @author José Antonio Parejo
+ * @param <T> Type of the objects contained in the column
  */
-public abstract class Column<T extends Object> {
+public abstract class Column<T extends Object> implements List<T>{
     protected Class<T> type;
     protected DataSet dataSet;
     protected String name;
@@ -35,7 +37,6 @@ public abstract class Column<T extends Object> {
         return type;
     }
     
-    @Override
     public boolean equals(Object obj) {
         boolean result=false;
         if(obj instanceof Column){
@@ -45,7 +46,6 @@ public abstract class Column<T extends Object> {
         return result;
     }
 
-    @Override
     public int hashCode() {
         int hash = 5;
         hash = 53 * hash + Objects.hashCode(this.name);
@@ -60,9 +60,12 @@ public abstract class Column<T extends Object> {
         this.name = name;
     }
             
+    @Override
     public abstract T get(int rowIdentifier);
     public abstract int getIndexOf(T object);
-    public abstract void set(int rowIdentifier, T value);    
+    @Override
+    public abstract T set(int rowIdentifier, T value);    
+    @Override
     public abstract int size();
     
     
