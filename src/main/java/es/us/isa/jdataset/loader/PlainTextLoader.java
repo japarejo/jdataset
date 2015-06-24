@@ -67,7 +67,7 @@ public class PlainTextLoader<X> extends AbstractFileTypeLoader{
         headersIndexes=new HashMap<>();
         for(int i=0;i<firstRow.length;i++){   
             headersIndexes.put(firstRow[i].trim(),i);
-            columnClass=extractColumnClass(firstRow[i].trim(),secondRow[i]);
+            columnClass=extractColumnClass(firstRow[i].trim(),secondRow[i].trim());
             dataset.addColumn(columnClass, firstRow[i].trim());
         }
     }
